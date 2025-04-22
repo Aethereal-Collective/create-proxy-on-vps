@@ -68,8 +68,8 @@ http_access deny all
 dns_v4_first on
 forwarded_for delete
 via off
-# Menggunakan DNS Google dan Cloudflare
-dns_nameservers 8.8.8.8 1.1.1.1
+# Menggunakan DNS AdGuard
+dns_nameservers 94.140.14.14 94.140.15.15
 http_port $HTTP_PORT
 EOF
 
@@ -118,11 +118,11 @@ if command -v iptables &> /dev/null; then
     iptables -A INPUT -p tcp --dport $SOCKS_PORT -j ACCEPT
 fi
 
-# Konfigurasi DNS Google dan Cloudflare untuk sistem
-echo -e "${GREEN}[+] Mengkonfigurasi DNS Google dan Cloudflare...${NC}"
+# Konfigurasi DNS AdGuard untuk sistem
+echo -e "${GREEN}[+] Mengkonfigurasi DNS AdGuard...${NC}"
 cat > /etc/resolv.conf << EOF
-nameserver 8.8.8.8
-nameserver 1.1.1.1
+nameserver 94.140.14.14
+nameserver 94.140.15.15
 EOF
 
 # Tampilkan informasi proxy
@@ -150,8 +150,8 @@ echo -e "===================================="
 echo -e "${GREEN}[+] Membuat file proxy.txt...${NC}"
 cat > proxy.txt << EOF
 ===== DETAIL PROXY =====
-HTTP Proxy: http://${PROXY_USER}:${PROXY_PASS}@${IP_VPS}:${HTTP_PORT}
-SOCKS5 Proxy: socks5://${PROXY_USER}:${PROXY_PASS}@${IP_VPS}:${SOCKS_PORT}
+HTTP Proxy: http://${IP_VPS}:${HTTP_PORT}:${PROXY_USER}:${PROXY_PASS}
+SOCKS5 Proxy: socks5://${IP_VPS}:${SOCKS_PORT}:${PROXY_USER}:${PROXY_PASS}
 =====================================
 EOF
 
